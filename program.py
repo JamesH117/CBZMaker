@@ -34,7 +34,7 @@ for f in files:
         shutil.rmtree(f)
         f = new_zip_folder
 
-    if f.endswith(".zip"):
+    if f.endswith(".zip") or f.endswith(".rar"):
         # If a cbz file copy does not exist, rename the zip file to cbz file
         if f[:-3]+"cbz" not in [f for f in os.listdir(cwd)]:
             print("Renaming zip folder to cbz: [{}]".format(f))
