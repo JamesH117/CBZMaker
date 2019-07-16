@@ -17,7 +17,7 @@ while folders used for storage of books are not converted into books themselves.
 
 (1) Download python script
 
-(2) Make sure pyinstaller in installed with command: pip install pyinstaller
+(2) Make sure pyinstaller is installed with command: pip install pyinstaller
 
 (3) Navigate using cmd line to directory containing python script
 
