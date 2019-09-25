@@ -14,7 +14,7 @@ To turn into executable file,
 cwd = os.getcwd()
 # List of files in top folder, with program, with their full file paths
 items_inside_dir = [os.path.join(cwd, f) for f in os.listdir(cwd) if not f.endswith(".py")]
-book_extensions = ["cbz", "zip", "rar", "7zip"]
+book_extensions = ["cbz", "zip", "rar", "7zip", "cbr", "ini"]
 
 def is_book(some_path):
     print("Looking at item: [{}]".format(some_path))
@@ -26,6 +26,9 @@ def is_book(some_path):
         Not an already zipped book, now check if it is an unzipped book
         (directory with no folders inside)
         '''
+        if os.path.getsize(some_path) == 0:
+            return False
+
         items_inside = [os.path.join(some_path, f) for f in os.listdir(some_path)]
 
         for x in items_inside:
@@ -44,20 +47,9 @@ def book_zipper(some_book_path):
     1. Zip 'some_book_path' (if unzipped)
     2. Rename extension to 'cbz'
     '''
-    print("Book zipper working on item: [{}]".format(some_book_path))
+    #print("Book zipper working on item: [{}]".format(some_book_path))
     if os.path.isdir(some_book_path):
         items_inside_book = [tf for tf in os.listdir(some_book_path)]
-
-        '''
-        TODO
-        Temp Code to fix potential issue where duplicate directory + .zip/cbz book in same spot
-        # If new_zip_folder already exists, should never happen, delete zip folder
-        # and use folder for new zip
-        if new_zip_folder in files:
-            files.remove(new_zip_folder)
-            os.remove(os.path.join(cwd, new_zip_folder))
-        f = new_zip_folder
-        '''
 
         new_book = '{}.cbz'.format(some_book_path)
         with ZipFile(new_book, 'w') as zip:
@@ -67,19 +59,28 @@ def book_zipper(some_book_path):
         shutil.rmtree(some_book_path)
         return True
     else:
-        if some_book_path[-3:] != "cbz":
+        if (not some_book_path.endswith("cbz")) and (not some_book_path.endswith("ini")):
             # Rename book to correct extension
-            os.rename(some_book_path, some_book_path[:-3]+"cbz")
+            try:
+                os.rename(some_book_path, some_book_path[:-3]+"cbz")
+            except FileExistsError:
+                new_book_name = some_book_path[:-4]+" (dupe).cbz"
+                os.rename(some_book_path, new_book_name)
+                with open(os.path.join(cwd, "duplicate_books.txt"), "a") as f:
+                    f.write("{}\n".format(new_book_name))
             return True
 
 
 for x in items_inside_dir:
-    if is_book(x):
-        book_zipper(x)
+    if x.endswith(".cbz") or x.endswith(".cbr"):
+        pass
     else:
-        # Add all inner directories to end of 'items_inside_dir'
-        # to check for more books to create
-        if os.path.isdir(x):
-            items_inside_x = [f for f in os.listdir(x)]
-            print("Appending items: {}".format(items_inside_x))
-            items_inside_dir += [os.path.join(x, y) for y in items_inside_x]
+        if is_book(x):
+            book_zipper(x)
+        else:
+            # Add all inner directories to end of 'items_inside_dir'
+            # to check for more books to create
+            if os.path.isdir(x):
+                items_inside_x = [f for f in os.listdir(x)]
+                #print("Appending items: {}".format(items_inside_x))
+                items_inside_dir += [os.path.join(x, y) for y in items_inside_x]
