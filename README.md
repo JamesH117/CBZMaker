@@ -1,4 +1,4 @@
-# CBZMaker
+# CBZMaker / CBZ Maker
 Program to convert directories (folders) into readable comic books for ComicRack.
 
 Program works with multiple levels of folders so only ones that need to be turned into books are converted 
