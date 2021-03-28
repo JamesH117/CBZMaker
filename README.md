@@ -23,7 +23,7 @@ while folders used for storage of books are not converted into books themselves.
 
 (4) Run command in same directory as script file: pyinstaller --onefile cbzmaker.py
 
-  (4a) To customize icon, add before <your_script_name>.py: --icon=<icon_name_here>.ico
+  (4a) To customize icon: pyinstaller --onefile --icon=<icon_name_here>.ico cbzmaker.py
 
 (5) Executable will be inside dist folder
 
