@@ -16,8 +16,6 @@ cwd = os.getcwd()
 items_inside_dir = [os.path.join(cwd, f) for f in os.listdir(cwd) if not (f.endswith(".py") or f.endswith(".cbz") or f.endswith(".exe"))]
 book_extensions = ["cbz", "zip", "rar", "7zip", "cbr", "ini"]
 
-print(items_inside_dir)
-
 def is_book(some_path):
     print("Looking at item: [{}]".format(some_path))
     if any([some_path.endswith(x) for x in book_extensions]):
@@ -34,7 +32,7 @@ def is_book(some_path):
         items_inside = [os.path.join(some_path, f) for f in os.listdir(some_path)]
 
         for x in items_inside:
-            if any([x.endswith(y) for y in book_extensions]) or os.path.isdir(x):
+            if any([x.endswith(y) for y in book_extensions]) or os.path.isdir(x) or x.endswith(".exe"):
                 # If any items inside the directory is a book, the directory is not a book
                 # If any item inside the directory is also a directory, the top level directory is not a book
                 return False
