@@ -13,8 +13,10 @@ To turn into executable file,
 
 cwd = os.getcwd()
 # List of files in top folder, with program, with their full file paths
-items_inside_dir = [os.path.join(cwd, f) for f in os.listdir(cwd) if not f.endswith(".py")]
+items_inside_dir = [os.path.join(cwd, f) for f in os.listdir(cwd) if not (f.endswith(".py") or f.endswith(".cbz") or f.endswith(".exe"))]
 book_extensions = ["cbz", "zip", "rar", "7zip", "cbr", "ini"]
+
+print(items_inside_dir)
 
 def is_book(some_path):
     print("Looking at item: [{}]".format(some_path))
@@ -72,7 +74,7 @@ def book_zipper(some_book_path):
 
 
 for x in items_inside_dir:
-    if x.endswith(".cbz") or x.endswith(".cbr"):
+    if x.endswith(".cbz") or x.endswith(".cbr") or x.endswith(".exe"):
         pass
     else:
         if is_book(x):
