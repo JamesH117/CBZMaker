@@ -18,6 +18,10 @@ book_extensions = ["cbz", "zip", "rar", "7zip", "cbr", "ini"]
 
 def is_book(some_path):
     print("Looking at item: [{}]".format(some_path))
+    if len(some_path) >= 259:
+        with open(os.path.join(cwd, "long_file_names.txt"), "a") as f:
+            f.write("{}\n".format(some_path))
+
     if any([some_path.endswith(x) for x in book_extensions]):
         return True
 
