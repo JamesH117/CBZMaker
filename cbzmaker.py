@@ -18,7 +18,6 @@ book_extensions = ["cbz", "zip", "rar", "7zip", "cbr", "ini"]
 
 def check_path_length(some_path):
     if len(some_path) >= 259:
-        print("if statement passed with value: ["+some_path+"]")
         with open(os.path.join(cwd, "long_file_names.txt"), "a", encoding="utf-8") as f:
             f.write("{}\n".format(some_path))
 
